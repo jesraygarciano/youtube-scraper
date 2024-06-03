@@ -14,4 +14,10 @@ export class YoutubeController {
   async getVideoDetails(@Param('videoId') videoId: string) {
     return this.youtubeService.getVideoDetails(videoId);
   }
+
+  @Get('username/:username/videos')
+  async getChannelVideosByUsername(@Param('username') username: string) {
+    const channelId = await this.youtubeService.getChannelIdByUsername(username);
+    return this.youtubeService.getChannelVideos(channelId);
+  }
 }

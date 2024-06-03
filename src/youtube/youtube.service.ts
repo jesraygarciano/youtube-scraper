@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -21,9 +20,7 @@ export class YoutubeService {
       throw new Error('Channel not found');
     }
     return response.data.items[0].id;
-
   }
-
 
   async getChannelVideos(channelId: string): Promise<any[]> {
     const url = `https://www.googleapis.com/youtube/v3/search?key=${this.apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=50`;

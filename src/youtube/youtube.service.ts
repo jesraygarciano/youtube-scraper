@@ -22,6 +22,15 @@ export class YoutubeService {
     return response.data.items[0].id;
   }
 
+  async getChannelIdByCustomUrl(customUrl: string): Promise<string> {
+    const url = `https://www.googleapis.com/youtube/v3/search?key=${this.apiKey}&q=${customUrl}&type=channel&part=id`;
+    const response = await this.httpService.get(url).toPromise();
+    if (response.data.items.length === 0) {
+      throw new Error('Channel not found');
+    }
+    return response.data.items[0].id.channelId;
+  }
+  
   async getChannelVideos(channelId: string): Promise<any[]> {
     const url = `https://www.googleapis.com/youtube/v3/search?key=${this.apiKey}&channelId=${channelId}&part=snippet,id&order=date&maxResults=50`;
     const response = await this.httpService.get(url).toPromise();

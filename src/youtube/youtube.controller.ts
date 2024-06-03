@@ -7,11 +7,12 @@ import { YoutubeService } from './youtube.service';
 export class YoutubeController {
   constructor(private readonly youtubeService: YoutubeService) {}
 
-  @Get('channel/:channelId/videos')
-  @ApiOperation({ summary: 'Get all videos from a channel by channel ID' })
-  @ApiParam({ name: 'channelId', type: String, description: 'YouTube Channel ID' })
+  @Get('customUrl/:customUrl/videos')
+  @ApiOperation({ summary: 'Get all videos from a channel' })
+  @ApiParam({ name: 'customUrl', type: String, description: 'YouTube Custom URL' })
   @ApiResponse({ status: 200, description: 'List of videos' })
-  async getChannelVideos(@Param('channelId') channelId: string) {
+  async getChannelVideosByCustomUrl(@Param('customUrl') customUrl: string) {
+    const channelId = await this.youtubeService.getChannelIdByCustomUrl(customUrl);
     return this.youtubeService.getChannelVideos(channelId);
   }
 
@@ -23,6 +24,14 @@ export class YoutubeController {
     return this.youtubeService.getVideoDetails(videoId);
   }
 
+  @Get('channel/:channelId/videos')
+  @ApiOperation({ summary: 'Get all videos from a channel by channel ID' })
+  @ApiParam({ name: 'channelId', type: String, description: 'YouTube Channel ID' })
+  @ApiResponse({ status: 200, description: 'List of videos' })
+  async getChannelVideos(@Param('channelId') channelId: string) {
+    return this.youtubeService.getChannelVideos(channelId);
+  }
+
   @Get('username/:username/videos')
   @ApiOperation({ summary: 'Get all videos from a channel by username' })
   @ApiParam({ name: 'username', type: String, description: 'YouTube Username' })
@@ -31,4 +40,6 @@ export class YoutubeController {
     const channelId = await this.youtubeService.getChannelIdByUsername(username);
     return this.youtubeService.getChannelVideos(channelId);
   }
+
+
 }

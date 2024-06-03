@@ -1,5 +1,7 @@
+## .env
+
 ```bash
-$ YOUTUBE_API_KEY=<YOUR-YOUTUBE-API>
+ YOUTUBE_API_KEY=<YOUR-YOUTUBE-API>
 ```
 
 <p align="center">
